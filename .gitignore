@@ -44,3 +44,9 @@ Thumbs.db
 
 # Server config file
 /server/config.js
+
+# ENV
+.env
+
+# app config
+/src/app/auth/auth.config.ts

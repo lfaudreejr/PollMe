@@ -1,10 +1,19 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+
+// Components
+import { HomeComponent } from "./pages/home/home.component";
+import { CallbackComponent } from "./pages/callback/callback.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
+    component: HomeComponent,
     children: []
+  },
+  {
+    path: "callback",
+    component: CallbackComponent
   }
 ];
 
@@ -12,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
