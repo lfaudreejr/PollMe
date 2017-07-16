@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const cors = require("cors");
+require("dotenv").config();
 
 const config = require("./server/config");
 
@@ -55,7 +56,9 @@ require("./server/api")(app, config);
 // Pass routing to Angular
 // Dont run in dev
 if (process.env.NODE_ENV !== "dev") {
-  res.sendFile(path.join(__dirname, "/dist/index.html"));
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "/dist/index.html"));
+  });
 }
 
 /**
