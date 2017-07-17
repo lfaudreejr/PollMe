@@ -3,7 +3,7 @@
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">PollMe</a>
+  <a class="navbar-brand text-white">PollMe</a>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active" *ngIf="!auth.loggedIn">
@@ -13,14 +13,14 @@
         <a class="nav-link" (click)="auth.logout()">Log Out</a>
       </li>
       <li class="nav-item" *ngIf="auth.loggedIn">
-        <a class="nav-link" href="#">Profile</a>
+        <a class="nav-link">Profile</a>
       </li>
       <li class="nav-item" *ngIf="auth.loggedIn">
-        <a class="nav-link disabled" href="#">Create Poll</a>
+        <a class="nav-link">Create Poll</a>
       </li>
     </ul>
   </div>
-  <div>
+  <div class="text-white">
     <span *ngIf="auth.loggedIn">{{auth.userProfile?.name}}</span>
   </div>
 </nav>
