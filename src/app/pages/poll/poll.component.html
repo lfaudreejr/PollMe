@@ -1,0 +1,31 @@
+<app-loading *ngIf="loading"></app-loading>
+
+<ng-template [ngIf]="utils.isLoaded(loading)">
+  <h1 class="text-center">{{pageTitle}}</h1>
+
+  <ng-template [ngIf]="poll">
+    <div class="container bg-faded">
+      <div class="row">
+        <div class="col">
+          <div class="input-group" *ngFor="let option of poll.options">
+            <button class="btn btn-primary btn-lg btn-block" type="button">Vote for {{option.title}}
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div style="display: block">
+            <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+      <p>Creator: {{poll.owner}}</p>
+    </div>
+  </ng-template>
+
+
+  <!-- Error loading poll -->
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error retrieving information for this event.
+  </p>
+</ng-template>
