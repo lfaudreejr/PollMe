@@ -56,7 +56,7 @@ export class PollComponent implements OnInit {
     this.pollSub = this.api.getPoll$(this.id).subscribe(
       res => {
         this.poll = res;
-        console.log(res);
+        // console.log(res);
         this.poll.options.forEach(option => {
           this.pieChartLabels.push(option.title);
           this.pieChartData.push(option.count);
