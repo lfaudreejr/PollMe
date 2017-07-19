@@ -30,6 +30,13 @@ export class ApiService {
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
+  // POST a new poll
+  postPoll$(poll: PollModel): Observable<PollModel> {
+    return this.authHttp
+      .post(`${ENV.BASE_API}poll/new`, poll)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
 
   private _handleSuccess(res: Response) {
     return res.json();
