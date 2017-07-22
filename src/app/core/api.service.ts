@@ -37,6 +37,13 @@ export class ApiService {
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
+  // POST a vote to existing poll
+  postVote$(id: string, obj: any) {
+    return this.authHttp
+      .post(`${ENV.BASE_API}poll/${id}`, obj)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
 
   private _handleSuccess(res: Response) {
     return res.json();

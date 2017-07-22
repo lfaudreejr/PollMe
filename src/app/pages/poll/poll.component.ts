@@ -20,6 +20,8 @@ export class PollComponent implements OnInit {
   poll: PollModel;
   loading: boolean;
   error: boolean;
+  errorMsg: string;
+  submitVoteObj: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,8 +60,8 @@ export class PollComponent implements OnInit {
         this.poll = res;
         // console.log(res);
         this.poll.options.forEach(option => {
-          this.pieChartLabels.push(option.title);
-          this.pieChartData.push(option.count);
+          this.pieChartLabels.push(option.title.toString());
+          this.pieChartData.push(option.count.toString());
         });
         this._setPageTitle(this.poll.title);
         this.loading = false;
@@ -68,6 +70,42 @@ export class PollComponent implements OnInit {
         console.error(err);
         this.loading = false;
         this.error = true;
+        this.errorMsg = "There was an error retreiving this poll.";
+        this._setPageTitle("Poll Details");
+      }
+    );
+  }
+
+  makeVote(option: string) {
+    if (!this.auth.userProfile) {
+      this.auth.login();
+    }
+    this.loading = true;
+    this.submitVoteObj = {
+      title: this.poll.title,
+      option: option,
+      voter: this.auth.userProfile.name
+    };
+    console.log(this.submitVoteObj);
+    this.api.postVote$(this.poll._id, this.submitVoteObj).subscribe(
+      res => {
+        this.poll = res;
+        console.log(res);
+        this.poll.options.forEach(option => {
+          for (let i = 0; i < this.pieChartLabels.length; i++) {
+            if (this.pieChartLabels[i] === option.title.toString()) {
+              this.pieChartData[i] = option.count;
+            }
+          }
+        });
+        this._setPageTitle(this.poll.title);
+        this.loading = false;
+      },
+      err => {
+        console.error(err);
+        this.loading = false;
+        this.error = true;
+        this.errorMsg = "You have already voted on this poll.";
         this._setPageTitle("Poll Details");
       }
     );
