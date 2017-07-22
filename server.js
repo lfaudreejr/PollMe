@@ -51,7 +51,7 @@ if (process.env.NODE_ENV !== "dev") {
 /**
  * Routes
  */
-require(path.join(__dirname, "./server/api"))(app, config);
+require("./server/api")(app, config);
 
 // Pass routing to Angular
 // Dont run in dev
