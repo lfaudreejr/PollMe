@@ -72,10 +72,12 @@ module.exports = function(app, config) {
             .status(409)
             .send({ message: "You already created a poll with this title" });
         }
+
         const poll = new Poll({
           title: req.body.title,
           options: req.body.options,
-          owner: req.body.owner
+          owner: req.body.owner,
+          voters: []
         });
         poll.save(err => {
           if (err) {

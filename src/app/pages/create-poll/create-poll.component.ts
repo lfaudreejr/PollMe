@@ -6,6 +6,12 @@ import {
   Output,
   EventEmitter
 } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { AuthService } from "./../../auth/auth.service";
 import { Subscription } from "rxjs/Subscription";
@@ -20,31 +26,56 @@ import { PollModel } from "./../../core/models/poll.model";
 export class CreatePollComponent implements OnInit {
   @Input() poll: PollModel;
   @Output() submitPoll = new EventEmitter();
-  pollForm: PollModel;
   submitPollSub: Subscription;
+  submitPollObj: PollModel;
   submitting: boolean;
   error: boolean;
+  pollForm: FormGroup;
 
   options = [];
 
   constructor(
     private auth: AuthService,
     private api: ApiService,
-    private title: Title
-  ) {}
+    private title: Title,
+    private fb: FormBuilder
+  ) {
+    this.createForm();
+  }
 
   ngOnInit() {}
 
-  addOption(option: string) {
-    if (option) {
-      this.options.push({ title: option });
+  createForm() {
+    this.pollForm = this.fb.group({
+      title: ["", Validators.required],
+      options: ""
+    });
+  }
+
+  saveOptions(option) {
+    if (!option) {
+      return 1;
     }
+    this.options.push({ title: option, count: 0 });
+    console.log(this.options);
+    this.pollForm.get("options").setValue(null);
+  }
+
+  _getSubmitObj() {
+    return new PollModel(
+      this.pollForm.get("title").value,
+      this.options,
+      this.auth.userProfile.name,
+      []
+    );
   }
 
   submitForm() {
     this.submitting = true;
+    this.submitPollObj = this._getSubmitObj();
+    console.log(this.submitPollObj);
     this.submitPollSub = this.api
-      .postPoll$(this.pollForm)
+      .postPoll$(this.submitPollObj)
       .subscribe(
         data => this._handleSubmitSuccess(data),
         error => this._handleSubmitError(error)

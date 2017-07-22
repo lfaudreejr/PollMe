@@ -1,26 +1,32 @@
-<div class="container" id="pollForm">
-  <form #pollForm="ngForm">
+<div class="container">
+  <form [formGroup]="pollForm">
     <div class="form-group">
-      <label for="title">Poll Title</label>
-      <input id="title" name="title" class="form-control" type="text" required>
+      <label for="title">Title:</label>
+      <input class="form-control" type="text" id="title" formControlName="title">
     </div>
     <div class="form-group">
-      <label for="options">Options</label>
-      <input id="options" name="options" class="form-control" type="text" #newOption (blur)="addOption(newOption.value); newOption.value = ''"
-        required>
-      <button class="btn btn-primary" id="addOption" (click)="addOption(newOption.value)">Add Option</button>
+      <label for="options">Options:</label>
+      <input class="form-control" type="text" id="options" formControlName="options" #option>
+      <button class="btn btn-primary" (click)="saveOptions(option.value)">Add Option</button>
     </div>
     <div class="form-group">
-      <div class="list-group">
-        <p class="list-group-item active">
-          Current Options:
-        </p>
-        <p *ngFor="let option of options" class="list-group-item">{{option.title}}</p>
-      </div>
-    </div>
-    <div class=" form-group ">
-      <button id="submitOptions" type="submit " [attr.disabled]="pollForm.invalid || submitting ? true : null " class="btn btn-success btn-lg btn-block"
-        (click)="submitForm()">Create Poll</button>
+      <button class="btn btn-success" [attr.disabled]="pollForm.invalid || submitting ? true : null" (click)="submitForm()">Submit New Poll</button>
     </div>
   </form>
+</div>
+
+<div class="container text-center">
+  <div class="">
+    <h5>Your current Poll:</h5>
+  </div>
+  <div class="">
+    <h2>{{pollForm.value.title}}</h2>
+  </div>
+  <div class="">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let option of options">
+        {{option.title}}
+      </li>
+    </ul>
+  </div>
 </div>
