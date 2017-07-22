@@ -1,9 +1,10 @@
 import { BrowserModule, Title } from "@angular/platform-browser";
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpModule, Http, RequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChartsModule } from "ng2-charts";
 
 import { authHttpFactory } from "./auth/auth-http.factory";
@@ -22,6 +23,8 @@ import { FooterComponent } from "./footer/footer.component";
 import { CallbackComponent } from "./pages/callback/callback.component";
 import { LoadingComponent } from "./core/loading.component";
 import { PollComponent } from "./pages/poll/poll.component";
+import { ProfileComponent } from "./pages/profile/profile.component";
+import { CreatePollComponent } from "./pages/create-poll/create-poll.component";
 
 @NgModule({
   declarations: [
@@ -31,10 +34,14 @@ import { PollComponent } from "./pages/poll/poll.component";
     FooterComponent,
     CallbackComponent,
     LoadingComponent,
-    PollComponent
+    PollComponent,
+    ProfileComponent,
+    CreatePollComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpModule,

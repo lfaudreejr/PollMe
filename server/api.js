@@ -72,10 +72,12 @@ module.exports = function(app, config) {
             .status(409)
             .send({ message: "You already created a poll with this title" });
         }
+
         const poll = new Poll({
           title: req.body.title,
           options: req.body.options,
-          owner: req.body.owner
+          owner: req.body.owner,
+          voters: []
         });
         poll.save(err => {
           if (err) {
@@ -85,5 +87,37 @@ module.exports = function(app, config) {
         });
       }
     );
+  });
+
+  // POST a vote to existing Poll
+  app.post("/api/poll/:id", (req, res) => {
+    Poll.findById(req.params.id, (err, foundPoll) => {
+      if (err) {
+        return res.status(500).send({ message: err.message });
+      }
+      if (!foundPoll) {
+        return res.status(400).message({ message: "Poll not found." });
+      }
+
+      for (let i = 0; i < foundPoll.options.length; i++) {
+        if (foundPoll.options[i].title === req.body.option) {
+          foundPoll.options[i].count = foundPoll.options[i].count + 1;
+        }
+      }
+      for (let i = 0; i < foundPoll.voters.length; i++) {
+        if (foundPoll.voters[i] === req.body.voter) {
+          return res
+            .status(403)
+            .send({ message: "You have already voted on this poll." });
+        }
+      }
+      foundPoll.voters.push(req.body.voter);
+      foundPoll.save(err => {
+        if (err) {
+          return res.status(500).send({ message: err.message });
+        }
+        res.send(foundPoll);
+      });
+    });
   });
 };

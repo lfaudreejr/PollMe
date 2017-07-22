@@ -1,0 +1,32 @@
+<div class="container">
+  <form [formGroup]="pollForm">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input class="form-control" type="text" id="title" formControlName="title">
+    </div>
+    <div class="form-group">
+      <label for="options">Options:</label>
+      <input class="form-control" type="text" id="options" formControlName="options" #option>
+      <button class="btn btn-primary" (click)="saveOptions(option.value)">Add Option</button>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" [attr.disabled]="pollForm.invalid || submitting ? true : null" (click)="submitForm()">Submit New Poll</button>
+    </div>
+  </form>
+</div>
+
+<div class="container text-center" *ngIf="pollForm.value">
+  <div class="">
+    <h5>Your current Poll:</h5>
+  </div>
+  <div>
+    <h2>{{pollForm.value.title}}</h2>
+  </div>
+  <div class="">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let option of options">
+        {{option.title}}
+      </li>
+    </ul>
+  </div>
+</div>

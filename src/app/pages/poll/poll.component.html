@@ -1,16 +1,18 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="utils.isLoaded(loading)">
-  <h1 class="text-center">{{pageTitle}}</h1>
-
+  <div class="container">
+    <h1 class="text-center">{{pageTitle}}</h1>
+  </div>
   <ng-template [ngIf]="poll">
     <div class="container bg-faded">
       <div class="row">
         <div class="col">
           <div class="input-group" *ngFor="let option of poll.options">
-            <button class="btn btn-primary btn-lg btn-block" type="button">Vote for {{option.title}}
+            <button class="btn btn-primary btn-lg btn-block" type="button" (click)="makeVote(option.title)">Vote for {{option.title}}
             </button>
           </div>
+          <p>Note: You must be logged in to vote.</p>
         </div>
         <div class="col">
           <div style="display: block">
@@ -26,6 +28,6 @@
 
   <!-- Error loading poll -->
   <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving information for this event.
+    <strong>Oops!</strong> {{errorMsg}}.
   </p>
 </ng-template>

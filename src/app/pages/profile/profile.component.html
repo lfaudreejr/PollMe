@@ -1,0 +1,14 @@
+<ng-template [ngIf]="auth.userProfile">
+  <div class="container" id="profile">
+    <div class="row justify-content-center">
+      <div class="col-2">
+        <img class="rounded" *ngIf="auth.userProfile.picture" src="{{auth.userProfile.picture}}" alt="profile image">
+      </div>
+      <div class=" col-5">
+        <h4 class="" *ngIf="auth.userProfile.name">{{auth.userProfile.name}}</h4>
+        <p class="" *ngIf="auth.userProfile.nickname">{{auth.userProfile.nickname}}</p>
+        <p class="" *ngIf="auth.userProfile.updated_at"><small class="text-muted">Last updated: {{auth.userProfile.updated_at | date}}</small></p>
+      </div>
+    </div>
+  </div>
+</ng-template>
