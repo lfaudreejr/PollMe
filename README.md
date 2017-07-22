@@ -1,4 +1,4 @@
-# Pollme
+# Pollme ( https://pollme-app.herokuapp.com/ )
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
 
