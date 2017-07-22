@@ -8,5 +8,7 @@ const apiURI = _isDev ? "http://localhost:8080/api/" : "/api/";
 
 export const ENV = {
   BASE_URI: getHost(),
-  BASE_API: apiURI
+  BASE_API: apiURI,
+  CLIENT_ID: "sEdVSrIuQuXkImtPotuDlNzTiSHSapxf",
+  CLIENT_DOMAIN: "lfaudreejr.auth0.com"
 };

@@ -4,8 +4,9 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <a class="navbar-brand text-white" routerLink="/">PollMe</a>
+
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active" *ngIf="!auth.loggedIn">
         <a class="nav-link" (click)="auth.login()">Log In</a>
       </li>
@@ -21,6 +22,6 @@
     </ul>
   </div>
   <div class="text-white">
-    <span *ngIf="auth.loggedIn">{{auth.userProfile?.name}}</span>
+    <span *ngIf="auth.loggedIn"><small>{{auth.userProfile?.name}}</small></span>
   </div>
 </nav>
