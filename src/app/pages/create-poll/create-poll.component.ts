@@ -13,6 +13,7 @@ import {
   Validators
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
 import { AuthService } from "./../../auth/auth.service";
 import { Subscription } from "rxjs/Subscription";
 import { ApiService } from "./../../core/api.service";
@@ -38,7 +39,8 @@ export class CreatePollComponent implements OnInit {
     private auth: AuthService,
     private api: ApiService,
     private title: Title,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public router: Router
   ) {
     this.createForm();
   }
@@ -89,6 +91,7 @@ export class CreatePollComponent implements OnInit {
     this.submitPoll.emit(eventObj);
     this.error = false;
     this.submitting = false;
+    this.router.navigate(["/"]);
   }
 
   private _handleSubmitError(err) {
