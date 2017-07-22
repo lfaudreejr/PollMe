@@ -9,7 +9,7 @@ const methodOverride = require("method-override");
 const cors = require("cors");
 require("dotenv").config();
 
-const config = require("./server/config");
+const config = require("./server/config.js");
 
 /**
  * MongoDB
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV !== "dev") {
 /**
  * Routes
  */
-require("./server/api")(app, config);
+require("./server/api.js")(app, config);
 
 // Pass routing to Angular
 // Dont run in dev
