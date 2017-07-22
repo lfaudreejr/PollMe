@@ -39,7 +39,7 @@ app.use(methodOverride("X-HTTP-Method-Override"));
 app.use(cors());
 
 // Set PORT
-const port = process.env.PORT || "8080";
+const port = process.env.PORT || 8080;
 app.set("port", port);
 
 // Set static path to Angular app in dist
