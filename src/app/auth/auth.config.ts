@@ -9,8 +9,8 @@ interface AuthConfig {
 }
 
 export const AUTH_CONFIG: AuthConfig = {
-  CLIENT_ID: "sEdVSrIuQuXkImtPotuDlNzTiSHSapxf",
-  CLIENT_DOMAIN: "lfaudreejr.auth0.com",
+  CLIENT_ID: process.env.CLIENT_ID,
+  CLIENT_DOMAIN: process.env.CLIENT_DOMAIN,
   AUDIENCE: "http://localhost:8080/api",
   REDIRECT: `${ENV.BASE_URI}/callback`,
   SCOPE: "openid profile"
