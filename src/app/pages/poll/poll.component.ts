@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { AuthService } from "./../../auth/auth.service";
 import { ApiService } from "./../../core/api.service";
@@ -22,13 +23,15 @@ export class PollComponent implements OnInit {
   error: boolean;
   errorMsg: string;
   submitVoteObj: any;
+  public myPoll = false;
 
   constructor(
     private route: ActivatedRoute,
     public auth: AuthService,
     private api: ApiService,
     private title: Title,
-    public utils: UtilsService
+    public utils: UtilsService,
+    public router: Router
   ) {}
 
   ngOnInit() {
@@ -64,6 +67,11 @@ export class PollComponent implements OnInit {
           this.pieChartData.push(option.count.toString());
         });
         this._setPageTitle(this.poll.title);
+        if (this.auth.userProfile) {
+          if (this.auth.userProfile.name === this.poll.owner) {
+            this.myPoll = true;
+          }
+        }
         this.loading = false;
       },
       err => {
@@ -108,6 +116,16 @@ export class PollComponent implements OnInit {
         this.errorMsg = "You have already voted on this poll.";
         this._setPageTitle("Poll Details");
       }
+    );
+  }
+
+  deletePoll() {
+    this.api.deletePoll$(this.poll._id).subscribe(
+      res => {
+        console.log(res);
+        this.router.navigate(["/"]);
+      },
+      error => console.error(error)
     );
   }
 

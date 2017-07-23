@@ -45,6 +45,14 @@ export class ApiService {
       .catch(this._handleError);
   }
 
+  // DELETE a poll option
+  deletePoll$(id: string) {
+    return this.authHttp
+      .delete(`${ENV.BASE_API}poll/${id}`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
   private _handleSuccess(res: Response) {
     return res.json();
   }
