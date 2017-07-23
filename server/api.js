@@ -104,11 +104,13 @@ module.exports = function(app, config) {
           foundPoll.options[i].count = foundPoll.options[i].count + 1;
         }
       }
-      for (let i = 0; i < foundPoll.voters.length; i++) {
-        if (foundPoll.voters[i] === req.body.voter) {
-          return res
-            .status(403)
-            .send({ message: "You have already voted on this poll." });
+      if (process.env.NODE_ENV !== "dev") {
+        for (let i = 0; i < foundPoll.voters.length; i++) {
+          if (foundPoll.voters[i] === req.body.voter) {
+            return res
+              .status(403)
+              .send({ message: "You have already voted on this poll." });
+          }
         }
       }
       foundPoll.voters.push(req.body.voter);
