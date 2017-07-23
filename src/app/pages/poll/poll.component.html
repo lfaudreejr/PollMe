@@ -22,12 +22,15 @@
         </div>
       </div>
       <p>Creator: {{poll.owner}}</p>
+      <button class="btn btn-danger" *ngIf="myPoll" (click)="deletePoll()">Delete Poll</button>
     </div>
   </ng-template>
 
 
   <!-- Error loading poll -->
-  <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> {{errorMsg}}.
-  </p>
+  <div class="container">
+    <p *ngIf="error" class="alert alert-danger">
+      <strong>Oops!</strong> {{errorMsg}}.
+    </p>
+  </div>
 </ng-template>

@@ -120,4 +120,22 @@ module.exports = function(app, config) {
       });
     });
   });
+
+  // DELETE a Poll option
+  app.delete("/api/poll/:id", (req, res) => {
+    Poll.findById(req.params.id, (err, foundPoll) => {
+      if (err) {
+        return res.status(500).send({ message: err.message });
+      }
+      if (!foundPoll) {
+        return res.status(400).send({ message: "Poll not found." });
+      }
+      foundPoll.remove(err => {
+        if (err) {
+          return res.status(500).send({ message: err.message });
+        }
+        res.status(200).send({ message: "Poll successfully deleted." });
+      });
+    });
+  });
 };
