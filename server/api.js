@@ -140,4 +140,19 @@ module.exports = function(app, config) {
       });
     });
   });
+
+  // GET Polls for a user
+  app.get("/api/:user/polls", (req, res) => {
+    Poll.find(req.params.user, (err, foundPolls) => {
+      if (err) {
+        return res.status(500).send({ message: err.message });
+      }
+      if (!foundPolls) {
+        return res
+          .status(400)
+          .send({ message: "No Polls found for this user." });
+      }
+      res.send(foundPolls);
+    });
+  });
 };

@@ -30,6 +30,14 @@ export class ApiService {
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
+  // GET a users Polls
+  getUserPolls$(user: string): Observable<PollModel> {
+    return this.authHttp
+      .get(`${ENV.BASE_API}user/polls`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
   // POST a new poll
   postPoll$(poll: PollModel): Observable<PollModel> {
     return this.authHttp

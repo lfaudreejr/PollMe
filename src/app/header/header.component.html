@@ -21,6 +21,9 @@
       </li>
     </ul>
   </div>
+  <div>
+    <span *ngIf="auth.loggedIn"><img class="userPicture" src="{{auth.userProfile?.picture}}"></span>
+  </div>
   <div class="text-white">
     <span *ngIf="auth.loggedIn"><small>{{auth.userProfile?.name}}</small></span>
   </div>
