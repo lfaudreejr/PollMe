@@ -6,9 +6,11 @@ import { HttpModule, Http, RequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ChartsModule } from "ng2-charts";
+import { MaterialModule } from "@angular/material";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import "hammerjs";
 
 import { authHttpFactory } from "./auth/auth-http.factory";
-import "hammerjs";
 import { AuthGuard } from "./auth/auth.guard";
 
 import { AuthService } from "./auth/auth.service";
@@ -41,6 +43,8 @@ import { CreatePollComponent } from "./pages/create-poll/create-poll.component";
   imports: [
     CommonModule,
     BrowserModule,
+    MaterialModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,

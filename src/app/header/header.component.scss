@@ -1,1 +1,8 @@
-
+.example-fill-remaining-space {
+  // This fills the remaining space, by using flexbox.
+  // Every toolbar row uses a flexbox row layout.
+  flex: 1 1 auto;
+}
+.nav-link {
+  margin: 0 10px 0 10px;
+}
