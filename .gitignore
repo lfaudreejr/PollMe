@@ -44,4 +44,4 @@ Thumbs.db
 # ENV File
 .env
 /database
-env.config.ts
+/src/app/core/env.config.ts
