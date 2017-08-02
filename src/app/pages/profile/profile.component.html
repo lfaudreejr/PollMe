@@ -2,7 +2,7 @@
   <div class="container" id="profile">
     <div class="row justify-content-center">
       <div class="col-2">
-        <img class="rounded" *ngIf="auth.userProfile.picture" src="{{auth.userProfile.picture}}" alt="profile image">
+        <img class="img-fluid" *ngIf="auth.userProfile.picture" src="{{auth.userProfile.picture}}" alt="profile image">
       </div>
       <div class=" col-5">
         <h4 class="" *ngIf="auth.userProfile.name">{{auth.userProfile.name}}</h4>

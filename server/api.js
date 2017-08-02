@@ -143,7 +143,7 @@ module.exports = function(app, config) {
 
   // GET Polls for a user
   app.get("/api/:user/polls", (req, res) => {
-    Poll.find(req.params.user, (err, foundPolls) => {
+    Poll.find({ owner: req.params.user }, (err, foundPolls) => {
       if (err) {
         return res.status(500).send({ message: err.message });
       }

@@ -33,7 +33,7 @@ export class ApiService {
   // GET a users Polls
   getUserPolls$(user: string): Observable<PollModel> {
     return this.authHttp
-      .get(`${ENV.BASE_API}user/polls`)
+      .get(`${ENV.BASE_API}${user}/polls`)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
