@@ -24,7 +24,7 @@ import { PollModel } from "./../../core/models/poll.model";
   templateUrl: "./create-poll.component.html",
   styleUrls: ["./create-poll.component.scss"]
 })
-export class CreatePollComponent implements OnInit {
+export class CreatePollComponent implements OnInit, OnDestroy {
   @Input() poll: PollModel;
   @Output() submitPoll = new EventEmitter();
   submitPollSub: Subscription;

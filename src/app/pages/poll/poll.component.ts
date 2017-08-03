@@ -13,7 +13,7 @@ import { PollModel } from "./../../core/models/poll.model";
   templateUrl: "./poll.component.html",
   styleUrls: ["./poll.component.scss"]
 })
-export class PollComponent implements OnInit {
+export class PollComponent implements OnInit, OnDestroy {
   pageTitle: string;
   id: string;
   routeSub: Subscription;
@@ -24,6 +24,10 @@ export class PollComponent implements OnInit {
   errorMsg: string;
   submitVoteObj: any;
   public myPoll = false;
+  // Pie
+  public pieChartLabels: string[] = [];
+  public pieChartData: number[] = [];
+  public pieChartType: string = "pie";
 
   constructor(
     private route: ActivatedRoute,
@@ -41,11 +45,6 @@ export class PollComponent implements OnInit {
       this._getPoll();
     });
   }
-
-  // Pie
-  public pieChartLabels: string[] = [];
-  public pieChartData: number[] = [];
-  public pieChartType: string = "pie";
 
   // events
   public chartClicked(e: any): void {
@@ -98,7 +97,6 @@ export class PollComponent implements OnInit {
     this.api.postVote$(this.poll._id, this.submitVoteObj).subscribe(
       res => {
         this.poll = res;
-        console.log(res);
         this.poll.options.forEach(option => {
           for (let i = 0; i < this.pieChartLabels.length; i++) {
             if (this.pieChartLabels[i] === option.title.toString()) {

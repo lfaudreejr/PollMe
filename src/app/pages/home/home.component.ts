@@ -10,7 +10,7 @@ import { PollModel } from "./../../core/models/poll.model";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   pageTitle = "Polls";
   pollListSub: Subscription;
   pollList: PollModel[];

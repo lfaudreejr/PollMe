@@ -5,7 +5,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./pages/home/home.component";
 import { CallbackComponent } from "./pages/callback/callback.component";
 import { PollComponent } from "./pages/poll/poll.component";
-import { ProfileComponent } from "./pages/profile/profile.component";
 import { CreatePollComponent } from "./pages/create-poll/create-poll.component";
 
 import { AuthGuard } from "./auth/auth.guard";
@@ -17,8 +16,7 @@ const routes: Routes = [
   },
   {
     path: "profile",
-    component: ProfileComponent,
-    canActivate: [AuthGuard]
+    loadChildren: "./pages/profile/profile.module#ProfileModule"
   },
   {
     path: "callback",
@@ -26,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: "poll/:id",
-    component: PollComponent
+    loadChildren: "./pages/poll/poll.module#PollModule"
   },
   {
     path: "create",
