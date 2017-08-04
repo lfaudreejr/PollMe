@@ -6,6 +6,8 @@ import { HttpModule, Http, RequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
+import { SharedModule } from "./shared/shared.module";
+
 import { CoreModule } from "./core/core.module";
 import { authHttpFactory } from "./auth/auth-http.factory";
 import { AuthGuard } from "./auth/auth.guard";
@@ -24,6 +26,7 @@ import { CallbackComponent } from "./pages/callback/callback.component";
     CoreModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    SharedModule,
     AppRoutingModule,
     HttpModule,
     FormsModule
