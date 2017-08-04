@@ -1,18 +1,17 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { PollComponent } from "./poll.component";
+import { CreatePollComponent } from "./create-poll.component";
 
 const pollRoutes: Routes = [
   {
     path: "",
-    component: PollComponent
-  },
-  { path: ":id", component: PollComponent }
+    component: CreatePollComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(pollRoutes)],
   exports: [RouterModule]
 })
-export class PollRoutingModule {}
+export class CreatePollRoutingModule {}

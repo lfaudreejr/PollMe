@@ -15,15 +15,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { CallbackComponent } from "./pages/callback/callback.component";
-import { CreatePollComponent } from "./pages/create-poll/create-poll.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    CallbackComponent,
-    CreatePollComponent
-  ],
+  declarations: [AppComponent, HomeComponent, CallbackComponent],
   imports: [
     CommonModule,
     BrowserModule,

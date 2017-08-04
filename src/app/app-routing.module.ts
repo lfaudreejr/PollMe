@@ -15,12 +15,12 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: "profile",
-    loadChildren: "./pages/profile/profile.module#ProfileModule"
-  },
-  {
     path: "callback",
     component: CallbackComponent
+  },
+  {
+    path: "profile",
+    loadChildren: "./pages/profile/profile.module#ProfileModule"
   },
   {
     path: "poll/:id",
@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: "create",
-    component: CreatePollComponent,
+    loadChildren: "./pages/create-poll/create-poll.module#CreatePollModule",
     canActivate: [AuthGuard]
   },
   {

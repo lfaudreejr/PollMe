@@ -1,9 +1,13 @@
 /*--------------------
        BASICS
 --------------------*/
+html {
+  height: 100%;
+}
 
 body {
   min-width: 320px;
+  min-height: 100%;
 }
 
 /*-- Cursor --*/

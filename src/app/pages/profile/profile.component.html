@@ -1,47 +1,50 @@
 <ng-template [ngIf]="auth.userProfile">
   <div class="container" id="profile">
+
     <div class="row justify-content-center">
-      <div class="col-2">
-        <img class="img-fluid" *ngIf="auth.userProfile.picture" src="{{auth.userProfile.picture}}" alt="profile image">
+      <div class="col-sm-6 text-center">
+        <div class="">
+          <img class="img-fluid" *ngIf="auth.userProfile.picture" src="{{auth.userProfile.picture}}" alt="profile image">
+        </div>
+        <div class="">
+          <h4 class="" *ngIf="auth.userProfile.name">{{auth.userProfile.name}}</h4>
+          <p class="" *ngIf="auth.userProfile.nickname">{{auth.userProfile.nickname}}</p>
+          <p class="" *ngIf="auth.userProfile.updated_at"><small class="text-muted">Last updated: {{auth.userProfile.updated_at | date}}</small></p>
+        </div>
       </div>
-      <div class=" col-5">
-        <h4 class="" *ngIf="auth.userProfile.name">{{auth.userProfile.name}}</h4>
-        <p class="" *ngIf="auth.userProfile.nickname">{{auth.userProfile.nickname}}</p>
-        <p class="" *ngIf="auth.userProfile.updated_at"><small class="text-muted">Last updated: {{auth.userProfile.updated_at | date}}</small></p>
+      <div class="col-sm-6">
+        <ng-template [ngIf]="utils.isLoaded(loading)">
+          <ng-template [ngIf]="userPolls">
+            <ng-template [ngIf]="userPolls.length">
+              <h3 class="text-center">Your Current Polls:</h3>
+
+              <!-- Poll Listing -->
+              <div class="container">
+                <section class="list-group">
+                  <a *ngFor="let poll of userPolls" [routerLink]="['/poll', poll._id]" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1" [innerHTML]="poll.title"></h5>
+                    </div>
+                  </a>
+                </section>
+              </div>
+
+            </ng-template>
+            <!-- No Polls available -->
+            <div class="container">
+              <p *ngIf="!userPolls.length" class="alert alert-info">
+                No polls available.
+              </p>
+            </div>
+          </ng-template>
+          <!-- Error Loading Events -->
+          <div class="container">
+            <p *ngIf="error" class="alert alert-danger">
+              <strong>Oops!</strong> {{errorMsg}}
+            </p>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
-
-  <ng-template [ngIf]="utils.isLoaded(loading)">
-    <ng-template [ngIf]="userPolls">
-      <ng-template [ngIf]="userPolls.length">
-        <h3 class="text-center">Your Current Polls:</h3>
-
-        <!-- Poll Listing -->
-        <div class="container">
-          <section class="list-group">
-            <a *ngFor="let poll of userPolls" [routerLink]="['/poll', poll._id]" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1" [innerHTML]="poll.title"></h5>
-              </div>
-            </a>
-          </section>
-        </div>
-
-      </ng-template>
-      <!-- No Polls available -->
-      <div class="container">
-        <p *ngIf="!userPolls.length" class="alert alert-info">
-          No polls available.
-        </p>
-      </div>
-    </ng-template>
-    <!-- Error Loading Events -->
-    <div class="container">
-      <p *ngIf="error" class="alert alert-danger">
-        <strong>Oops!</strong> {{errorMsg}}
-      </p>
-    </div>
-  </ng-template>
-
 </ng-template>
