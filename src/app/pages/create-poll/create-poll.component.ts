@@ -50,7 +50,12 @@ export class CreatePollComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.pollForm = this.fb.group({
-      title: new FormControl("", [Validators.required]),
+      title: new FormControl("", [
+        Validators.required,
+        forbiddenWordValidator(
+          /fuck|dick|shit|nigger|bitch|ass|pussy|cock|spic|twat|cunt/i
+        )
+      ]),
       options: new FormControl("", [
         forbiddenWordValidator(
           /fuck|dick|shit|nigger|bitch|ass|pussy|cock|spic|twat|cunt/i
