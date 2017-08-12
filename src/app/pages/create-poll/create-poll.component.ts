@@ -18,6 +18,7 @@ import { AuthService } from "./../../auth/auth.service";
 import { Subscription } from "rxjs/Subscription";
 import { ApiService } from "./../../core/api.service";
 import { PollModel } from "./../../core/models/poll.model";
+import { forbiddenWordValidator } from "./../../shared/forbidden-word.directive";
 
 @Component({
   selector: "app-create-poll",
@@ -49,8 +50,12 @@ export class CreatePollComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.pollForm = this.fb.group({
-      title: ["", Validators.required],
-      options: ""
+      title: new FormControl("", [Validators.required]),
+      options: new FormControl("", [
+        forbiddenWordValidator(
+          /fuck|dick|shit|nigger|bitch|ass|pussy|cock|spic|twat|cunt/i
+        )
+      ])
     });
   }
 
