@@ -8,6 +8,7 @@ Make a Poll about anything and see what people think!
 
 
 ![PollMe Poll Preview](https://raw.githubusercontent.com/lfaudreejr/PollMe/master/images/pollme-poll.png)
+
 ---
 
 ##### Installation:
