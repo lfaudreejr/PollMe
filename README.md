@@ -7,7 +7,7 @@ Make a Poll about anything and see what people think!
 ![PollMe Homepage Preview](https://raw.githubusercontent.com/lfaudreejr/PollMe/master/images/pollme-homepage.png)
 
 
-![PollMe Poll Preview](https://raw.githubusercontent.com/lfaudreejr/PollMe/blob/master/images/pollme-poll.png)
+![PollMe Poll Preview](https://raw.githubusercontent.com/lfaudreejr/PollMe/master/images/pollme-poll.png)
 
 ---
 
