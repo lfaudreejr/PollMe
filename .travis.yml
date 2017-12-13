@@ -8,3 +8,6 @@ deploy:
   app: pollme-app
   on:
     repo: lfaudreejr/PollMe
+before_install:
+- openssl aes-256-cbc -K $encrypted_b9ecce8e6385_key -iv $encrypted_b9ecce8e6385_iv
+  -in env.config.ts.enc -out ./src/app/core/env.config.ts -d
