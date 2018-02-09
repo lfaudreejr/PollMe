@@ -9,7 +9,7 @@ import { Subscription } from "rxjs/Subscription";
 import { PollModel } from "./../../core/models/poll.model";
 
 @Component({
-  selector: "app-poll",
+  selector: 'app-poll',
   templateUrl: "./poll.component.html",
   styleUrls: ["./poll.component.scss"]
 })
@@ -27,7 +27,7 @@ export class PollComponent implements OnInit, OnDestroy {
   // Pie
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
-  public pieChartType: string = "pie";
+  public pieChartType = 'pie';
 
   constructor(
     private route: ActivatedRoute,
@@ -41,7 +41,7 @@ export class PollComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Set poll Id from route params and subscribe
     this.routeSub = this.route.params.subscribe(params => {
-      this.id = params["id"];
+      this.id = params['id'];
       this._getPoll();
     });
   }
@@ -60,7 +60,7 @@ export class PollComponent implements OnInit, OnDestroy {
     this.pollSub = this.api.getPoll$(this.id).subscribe(
       res => {
         this.poll = res;
-        // console.log(res);
+        console.log(res);
         this.poll.options.forEach(option => {
           this.pieChartLabels.push(option.title.toString());
           this.pieChartData.push(option.count.toString());
@@ -77,8 +77,8 @@ export class PollComponent implements OnInit, OnDestroy {
         console.error(err);
         this.loading = false;
         this.error = true;
-        this.errorMsg = "There was an error retreiving this poll.";
-        this._setPageTitle("Poll Details");
+        this.errorMsg = 'There was an error retreiving this poll.';
+        this._setPageTitle('Poll Details');
       }
     );
   }
@@ -111,8 +111,8 @@ export class PollComponent implements OnInit, OnDestroy {
         console.error(err);
         this.loading = false;
         this.error = true;
-        this.errorMsg = "You have already voted on this poll.";
-        this._setPageTitle("Poll Details");
+        this.errorMsg = 'You have already voted on this poll.';
+        this._setPageTitle('Poll Details');
       }
     );
   }
@@ -121,7 +121,7 @@ export class PollComponent implements OnInit, OnDestroy {
     this.api.deletePoll$(this.poll._id).subscribe(
       res => {
         console.log(res);
-        this.router.navigate(["/"]);
+        this.router.navigate(['/']);
       },
       error => console.error(error)
     );
