@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
-import { AuthHttp } from "angular2-jwt";
-import { AuthService } from "./../auth/auth.service";
-import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
-import { ENV } from "./env.config";
-import { PollModel } from "./models/poll.model";
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+import { AuthService } from './../auth/auth.service';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { ENV } from './env.config';
+import { PollModel } from './models/poll.model';
 
 @Injectable()
 export class ApiService {
@@ -48,7 +48,7 @@ export class ApiService {
   // POST a vote to existing poll
   postVote$(id: string, obj: any) {
     return this.authHttp
-      .post(`${ENV.BASE_API}poll/${id}`, obj)
+      .put(`${ENV.BASE_API}poll/${id}`, obj)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
@@ -66,8 +66,9 @@ export class ApiService {
   }
 
   private _handleError(err: Response | any) {
-    const errorMsg = err.message || "Error: Unable to complete request.";
-    if (err.message && err.message.indexOf("No JWT present") > -1) {
+    const body = JSON.parse(err._body)
+    const errorMsg = body.message || 'Error: Unable to complete request.';
+    if (err.message && err.message.indexOf('No JWT present') > -1) {
       this.auth.login();
     }
     return Observable.throw(errorMsg);
