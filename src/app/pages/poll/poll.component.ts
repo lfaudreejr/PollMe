@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
-import { AuthService } from "./../../auth/auth.service";
-import { ApiService } from "./../../core/api.service";
-import { UtilsService } from "./../../core/utils.service";
-import { ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
-import { PollModel } from "./../../core/models/poll.model";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { AuthService } from './../../auth/auth.service';
+import { ApiService } from './../../core/api.service';
+import { UtilsService } from './../../core/utils.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { PollModel } from './../../core/models/poll.model';
 
 @Component({
   selector: 'app-poll',
-  templateUrl: "./poll.component.html",
-  styleUrls: ["./poll.component.scss"]
+  templateUrl: './poll.component.html',
+  styleUrls: ['./poll.component.scss']
 })
 export class PollComponent implements OnInit, OnDestroy {
   pageTitle: string;
@@ -60,7 +60,6 @@ export class PollComponent implements OnInit, OnDestroy {
     this.pollSub = this.api.getPoll$(this.id).subscribe(
       res => {
         this.poll = res;
-        console.log(res);
         this.poll.options.forEach(option => {
           this.pieChartLabels.push(option.title.toString());
           this.pieChartData.push(option.count.toString());
@@ -74,7 +73,6 @@ export class PollComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       err => {
-        console.error(err);
         this.loading = false;
         this.error = true;
         this.errorMsg = 'There was an error retreiving this poll.';
@@ -93,7 +91,6 @@ export class PollComponent implements OnInit, OnDestroy {
       option: option,
       voter: this.auth.userProfile.name
     };
-    console.log(this.submitVoteObj);
     this.api.postVote$(this.poll._id, this.submitVoteObj).subscribe(
       res => {
         this.poll = res;
@@ -108,10 +105,10 @@ export class PollComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       err => {
-        console.error(err);
         this.loading = false;
         this.error = true;
-        this.errorMsg = 'You have already voted on this poll.';
+        // this.errorMsg = 'You have already voted on this poll.';
+        this.errorMsg = err
         this._setPageTitle('Poll Details');
       }
     );
@@ -120,7 +117,6 @@ export class PollComponent implements OnInit, OnDestroy {
   deletePoll() {
     this.api.deletePoll$(this.poll._id).subscribe(
       res => {
-        console.log(res);
         this.router.navigate(['/']);
       },
       error => console.error(error)
