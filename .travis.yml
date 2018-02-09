@@ -1,8 +1,12 @@
 language: node_js
 node_js:
 - 8.1.3
+before_script:
+  - npm install
+  - npm run build
 deploy:
   provider: heroku
+  skip_cleanup: true
   api_key:
     secure: hrvzqUau9RHigfkymjZetXjmC9ux6nJITemAX9NBq4Gcmp1yin3OWlnWbj9b/CBdtGfFgTFgDXMhFCK5UlRB5BygGG0yIlfyiAencAEO4wRk4Z0ktuZCil3vN3Z+DDpEJwICrJCysb+UOeJXbi7cXajTe89tk0X/1V1ZRdywuD/aNdLwU2jcDu32FKio9G8liV8Io9XN+LHEW+6Khon28V3t39HqLABCU0xbNHc8CJ22sWcQ2WSWsuRGDUILHhfoXqsGCJY9FfKy3c0ab7S3LV5Gkii80gBVcvPUjzr2UmMACT0rSEEY4/5v+zjHHegAEyhmhePhoigBTDByj4JhgJiYl5uy8OmLtZN237G1A0S1I54Dmz4oE+QGOFjzsa6H5G3+jlHoDIMapRnNC7DGnVZwtJgNdwU3LInnWQ3cBtQ2opd4ZfgjHWZ1W8Of8Q25mz14xlAGWXrg3UrB4PEGMZWBPiKco9mq3Vg8U3XJCIeU+UsfIrJuCDn7AwuWtHyf6q+9N4lVNMcg3qBo8jKiUSef613XyX8Zt4PHsu8nXnoEGYIF/A/OC0xr/PBtfaJ7Jz1I/Pyg5uuANgIwHZLq2ROV35V6Zz8Hj3D6KM7dgUXxa5UAxt3B92jqa6MIIpMeQhOJZJ42kb0KiWspQLxobT5NAzlfYkWK5RB0Wyk+9wk=
   app: pollme-app
