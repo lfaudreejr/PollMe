@@ -8,15 +8,11 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const lusca = require('lusca');
 const logger = require('morgan');
-const mongo = require('connect-mongo');
-const session = require('express-session');
 const compression = require('compression');
 const favicon = require('serve-favicon');
 require("dotenv").config();
 
 const config = require("./server/config");
-
-const MongoStore = mongo(session);
 
 /**
  * MongoDB
@@ -56,20 +52,10 @@ if(process.env.NODE_ENV !== 'production') {
   app.use(cors());
 }
 
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESH_SECRET,
-  store: new MongoStore({
-    url: process.env.MONGO_URI,
-    autoReconnect: true
-  })
-}))
-
 // Set static path to Angular app in dist
 // Dont run in dev
 if (process.env.NODE_ENV !== "dev") {
-  app.use(lusca.csrf());
+  // app.use(lusca.csrf());
   app.use(lusca.xframe("SAMEORIGIN"));
   app.use(lusca.xssProtection(true));
   app.use(lusca.nosniff());
