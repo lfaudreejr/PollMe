@@ -75,7 +75,7 @@ export class PollComponent implements OnInit, OnDestroy {
       err => {
         this.loading = false;
         this.error = true;
-        this.errorMsg = 'There was an error retreiving this poll.';
+        this.errorMsg = err;
         this._setPageTitle('Poll Details');
       }
     );
