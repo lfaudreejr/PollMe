@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
-import { AuthService } from "./../../auth/auth.service";
-import { ApiService } from "./../../core/api.service";
-import { UtilsService } from "./../../core/utils.service";
+import { AuthService } from './../../auth/auth.service';
+import { ApiService } from './../../core/api.service';
+import { UtilsService } from './../../core/utils.service';
 
-import { PollModel } from "./../../core/models/poll.model";
+import { PollModel } from './../../core/models/poll.model';
 
 @Component({
-  selector: "app-profile",
-  templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.scss"]
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  pageTitle = "Profile";
+  pageTitle = 'Profile';
   userPolls: PollModel;
   loading: boolean;
   error: boolean;
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
         console.error(err);
         this.loading = false;
         this.error = true;
-        this.errorMsg = "There was an error retreiving user polls.";
+        this.errorMsg = err;
       }
     );
   }
