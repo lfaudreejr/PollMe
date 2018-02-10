@@ -6,15 +6,17 @@ const getIndex = (req, res) => {
 
 const getAllPolls = (req, res) => {
   Poll.find({}, (err, polls) => {
-    let pollArr = []
+    // let pollArr = []
+    let pollArr
     {
       if (err) {
         return res.status(500).send({ message: 'Error retrieving Polls.' })
       }
       if (polls) {
-        polls.forEach((poll) => {
-          pollArr.push(poll)
-        })
+        // polls.forEach((poll) => {
+        //   pollArr.push(poll)
+        // })
+        pollArr = polls.map(poll => poll)
       }
     }
     res.send(pollArr)

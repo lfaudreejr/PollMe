@@ -14,6 +14,12 @@
             </button>
           </div>
           <p>Note: You must be logged in to vote.</p>
+          <!-- Error loading poll -->
+          <div class="" *ngIf="error">
+            <p class="alert alert-danger">
+              <strong>Oops!</strong> {{errorMsg}}.
+            </p>
+          </div>
         </div>
         <div class="col">
           <div style="display: block">
@@ -22,14 +28,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-danger" *ngIf="myPoll" (click)="deletePoll()">Delete Poll</button>
+      <button class="btn btn-danger" *ngIf="myPoll || auth.isAdmin" (click)="deletePoll()">Delete Poll</button>
     </div>
   </ng-template>
-
-  <!-- Error loading poll -->
-  <div class="container">
-    <p *ngIf="error" class="alert alert-danger">
-      <strong>Oops!</strong> {{errorMsg}}.
-    </p>
-  </div>
 </ng-template>
