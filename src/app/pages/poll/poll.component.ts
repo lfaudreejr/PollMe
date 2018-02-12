@@ -66,7 +66,7 @@ export class PollComponent implements OnInit, OnDestroy {
         });
         this._setPageTitle(this.poll.title);
         if (this.auth.userProfile) {
-          if (this.auth.userProfile.name === this.poll.owner) {
+          if (this.auth.userProfile.sub === this.poll.owner) {
             this.myPoll = true;
           }
         }
@@ -89,7 +89,7 @@ export class PollComponent implements OnInit, OnDestroy {
     this.submitVoteObj = {
       title: this.poll.title,
       option: option,
-      voter: this.auth.userProfile.name
+      voter: this.auth.userProfile.sub
     };
     this.api.postVote$(this.poll._id, this.submitVoteObj).subscribe(
       res => {
