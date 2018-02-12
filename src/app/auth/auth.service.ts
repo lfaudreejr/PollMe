@@ -28,16 +28,11 @@ export class AuthService {
     // and update login status subject.
     // If not authenticated but there are still items
     // in localStorage, log out.
-    const lsProfile = {
-      name: JSON.parse(localStorage.getItem('name')),
-      picture: JSON.parse(localStorage.getItem('picture')),
-      nickname: JSON.parse(localStorage.getItem('nickname'))
-    }
 
     if (this.tokenValid) {
-      this.userProfile = lsProfile;
+      this.userProfile = this._getProfile()
       this.setLoggedIn(true);
-    } else if (!this.tokenValid && lsProfile) {
+    } else if (!this.tokenValid) {
       this.logout();
     }
   }
@@ -59,7 +54,11 @@ export class AuthService {
     this._auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
+        // this._getProfile(authResult);
+        this._setSession(authResult)
         this._getProfile(authResult);
+        this.router.navigate([localStorage.getItem('authRedirect') || '/']);
+        this._clearRedirect();
       } else if (err) {
         this._clearRedirect();
         this.router.navigate(['/']);
@@ -69,32 +68,34 @@ export class AuthService {
     });
   }
 
-  private _getProfile(authResult) {
-    // Use access token to retrieve user's profile and set session
-    this._auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+  private _getProfile(authResult?) {
+    if (this.userProfile) {
+      return this.userProfile
+    }
+    if (authResult) {
+      this.retrieveProfileFromAuth0(authResult.accessToken);
+    } else {
+      this.retrieveProfileFromAuth0(localStorage.getItem('access_token'))
+    }
+  }
+
+  private retrieveProfileFromAuth0 (token) {
+    return this._auth0.client.userInfo(token, (err, profile) => {
       if (profile) {
-        this._setSession(authResult, profile);
-        this.router.navigate([localStorage.getItem('authRedirect') || '/']);
-        this._clearRedirect();
+        return this.userProfile = profile
       } else if (err) {
         console.error(`Error authenticating: ${err.error}`);
       }
-    });
+    })
   }
 
-  private _setSession(authResult, profile) {
+  private _setSession(authResult) {
     // Save session data and update login status subject
     const expiresAt = JSON.stringify(authResult.expiresIn * 1000 + Date.now());
     // Set tokens and expiration in localStorage and props
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    localStorage.setItem('picture', JSON.stringify(profile.picture));
-    localStorage.setItem('name', JSON.stringify(profile.name));
-    localStorage.setItem('nickname', JSON.stringify(profile.nickname))
-    // localStorage.setItem('profile', JSON.stringify(profile));
-    localStorage.setItem('roles', JSON.stringify(profile['http://myapp.com/roles']))
-    this.userProfile = profile;
     // Update login status in loggedIn$ stream
     this.setLoggedIn(true);
   }
@@ -107,13 +108,8 @@ export class AuthService {
     // Ensure all auth items removed from localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
-    localStorage.removeItem('picture');
-    localStorage.removeItem('name');
-    localStorage.removeItem('nickname');
-    // localStorage.removeItem('profile');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('authRedirect');
-    localStorage.removeItem('roles')
     this._clearRedirect();
     // Reset local properties, update loggedIn$ stream
     this.userProfile = undefined;
@@ -123,11 +119,11 @@ export class AuthService {
   }
 
   get isAdmin(): boolean {
-    const roles = JSON.parse(localStorage.getItem('roles'))
-    if (roles) {
-      return roles.find((e) => e === 'admin')
+    // const roles = JSON.parse(localStorage.getItem('roles'))
+    if (this.userProfile) {
+      return this.userProfile['http://myapp.com/roles'].find((e) => e === 'admin')
     }
-    return
+    return false
   }
 
   get tokenValid(): boolean {

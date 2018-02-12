@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
 
   getUserPolls() {
     this.loading = true;
-    this.api.getUserPolls$(this.auth.userProfile.name).subscribe(
+    this.api.getUserPolls$(this.auth.userProfile.sub).subscribe(
       res => {
         this.userPolls = res;
         this.loading = false;

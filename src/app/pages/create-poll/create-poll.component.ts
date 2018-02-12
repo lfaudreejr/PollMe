@@ -5,19 +5,19 @@ import {
   Input,
   Output,
   EventEmitter
-} from "@angular/core";
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators
-} from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import { Router } from "@angular/router";
-import { AuthService } from "./../../auth/auth.service";
-import { Subscription } from "rxjs/Subscription";
-import { ApiService } from "./../../core/api.service";
-import { PollModel } from "./../../core/models/poll.model";
+} from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { AuthService } from './../../auth/auth.service';
+import { Subscription } from 'rxjs/Subscription';
+import { ApiService } from './../../core/api.service';
+import { PollModel } from './../../core/models/poll.model';
 import { forbiddenWordValidator } from './../../shared/forbidden-word.directive';
 
 @Component({
@@ -76,7 +76,7 @@ export class CreatePollComponent implements OnInit, OnDestroy {
     return new PollModel(
       this.pollForm.get('title').value,
       this.options,
-      this.auth.userProfile.name,
+      this.auth.userProfile.sub,
       []
     );
   }
