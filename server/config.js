@@ -1,5 +1,6 @@
-module.exports = {
-  AUTH0_DOMAIN: "lfaudreejr.auth0.com",
-  AUTH0_API_AUDIENCE: "http://localhost:8080/api/",
-  MONGO_URI: process.env.MONGO_URI
-};
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./config/prod')
+} else {
+  module.exports = require('./config/dev')
+}

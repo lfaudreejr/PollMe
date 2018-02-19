@@ -1,110 +1,109 @@
-const Poll = require('../models/Poll')
+const util      = require('util')
+const pollModel = require('../models/mongoose-poll')
+
+const log   = require('debug')('server:controllers-poll')
+const error = require('debug')('server:error')
 
 const getIndex = (req, res) => {
   res.send('API works')
 }
 
 const getAllPolls = (req, res) => {
-  Poll.find({}, (err, polls) => {
-    // let pollArr = []
-    let pollArr
-    {
-      if (err) {
-        return res.status(500).send({ message: 'Error retrieving Polls.' })
+  pollModel.findPolls((err, data) => {
+      let pollArr
+      {
+        if (err) {
+          error(err)
+          return res.status(500).send({ message: 'Error retrieving Polls.' })
+        }
+        if (data) {
+          log('Found polls ' + util.inspect(data))
+          pollArr = data.map(poll => poll)
+        }
       }
-      if (polls) {
-        // polls.forEach((poll) => {
-        //   pollArr.push(poll)
-        // })
-        pollArr = polls.map(poll => poll)
-      }
-    }
-    res.send(pollArr)
+      res.send(pollArr)
   })
 }
 
 const getPoll = (req, res) => {
-  Poll.findById(req.params.id, (err, poll) => {
+  pollModel.findPollById(req.params.id, (err, poll) => {
     if (err) {
+      error(err)
       return res.status(500).send({ message: 'Error retrieving Poll details.' })
     }
     if (!poll) {
       return res.status(400).send({ message: 'Poll not found' })
     }
+    log('Found poll ' + util.inspect(poll))
     res.send(poll)
   })
 }
 
 const makePoll = (req, res) => {
-  Poll.findOne(
+  pollModel.findOnePoll(
     {
       title: req.body.title,
       owner: req.body.owner
-    },
-    (err, existingPoll) => {
-      if (err) {
-        return res.status(500).send({ message: 'Error retrieving poll data.' })
-      }
-      if (existingPoll) {
-        return res.status(409).send({ message: 'You already created a poll with this title' })
-      }
-
-      const poll = new Poll({
-        title: req.body.title,
-        options: req.body.options,
-        owner: req.body.owner,
-        voters: []
-      })
-      poll.save((err) => {
-        if (err) {
-          return res.status(500).send({ message: 'Error saving poll data.' })
-        }
-        res.send(poll)
-      })
     }
-  )
+  , (err, poll) => {
+    if (err) {
+      error(err)
+      return res.status(500).send({ message: 'Error retrieving poll data.' })
+    }
+    if (poll) {
+      return res.status(409).send({ message: 'You already created a poll with this title' })
+    }
+    pollModel.createPoll({
+      title: req.body.title,
+      options: req.body.options,
+      owner: req.body.owner,
+      voters: []
+    }, (err, newPoll) => {
+      if (err) {
+        error(err)
+        return res.status(500).send({ message: 'Error saving poll data.' })
+      }
+      return res.send(newPoll)
+    })
+  })
 }
 
 const votePoll = (req, res) => {
-  Poll.findById(req.params.id)
-    .then(foundPoll => {
-      if (!foundPoll) {
-        return res.status(400).message({ message: 'Poll not found.' })
+  pollModel.findPollById(req.params.id, (err, poll) => {
+    if (err) {
+      error(err)
+      return res.status(500).send({ message: 'Error finding poll data.' })
+    }
+    if (!poll) {
+      return res.status(400).message({ message: 'Poll not found.' })
+    }
+    poll.options.forEach(option => {
+      if (option.title === req.body.option) {
+        option.count = option.count+1
       }
-      foundPoll.options.forEach(option => {
-        if (option.title === req.body.option) {
-          option.count = option.count+1
-        }
+    })
+    if (process.env.NODE_ENV !== 'dev') {
+      const notVoter = (x) => x !== req.body.voter
+      const notVoted = poll.voters.every(notVoter)
+
+      if (!notVoted) {
+        return res.status(403).send({ message: 'You have already voted on this poll.' })
+      }
+    }
+    poll.voters.push(req.body.voter)
+
+    poll.save()
+      .then((data) => {
+        return res.send(data)
       })
-
-      if (process.env.NODE_ENV !== 'dev') {
-        const notVoter = (x) => x !== req.body.voter
-        const notVoted = foundPoll.voters.every(notVoter)
-
-        if (!notVoted) {
-          return res.status(403).send({ message: 'You have already voted on this poll.' })
-        }
-      }
-
-      foundPoll.voters.push(req.body.voter)
-
-      foundPoll.save()
-        .then((data) => {
-          return res.send(data)
-        })
-        .catch((err) => {
-          return res.status(500).send({ message: "Error saving poll data." })
-        })
-
-    })
-    .catch(err => {
-      return res.status(500).send({ message: "Error retrieving poll data." })
-    })
-
+      .catch((err) => {
+        return res.status(500).send({ message: "Error saving poll data." })
+      })
+  })
 }
 
 const deletePoll = (req, res) => {
-  Poll.findById(req.params.id, (err, foundPoll) => {
+  pollModel.findPollById(req.params.id, (err, foundPoll) => {
     if (err) {
       return res.status(500).send({ message: 'Error retrieving poll data.' })
     }
@@ -121,7 +120,7 @@ const deletePoll = (req, res) => {
 }
 
 const getUserPolls = (req, res) => {
-  Poll.find({ owner: req.params.user }, (err, foundPolls) => {
+  pollModel.search({ owner: req.params.user }, (err, foundPolls) => {
     if (err) {
       return res.status(500).send({ message: "Error retrieving poll details." })
     }

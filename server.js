@@ -4,33 +4,13 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const lusca = require('lusca');
 const logger = require('morgan');
 const compression = require('compression');
 const favicon = require('serve-favicon');
-require("dotenv").config();
 
 const config = require("./server/config");
-
-/**
- * MongoDB
- */
-mongoose.connect(config.MONGO_URI, { useMongoClient: true });
-const mongoDB = mongoose.connection;
-
-mongoDB.on("error", () => {
-  console.error(
-    "MongoDB Connectiong Error. Please make sure that",
-    config.MONGO_URI,
-    "is running."
-  );
-  process.exit();
-});
-mongoDB.on("open", function callback() {
-  console.info("Connected to MongoDO:", config.MONGO_URI);
-});
 
 /**
  * App

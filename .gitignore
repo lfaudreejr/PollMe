@@ -45,3 +45,4 @@ Thumbs.db
 .env
 /database
 env.config.ts
+server/config/dev.js
